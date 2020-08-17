@@ -1,9 +1,8 @@
-package org.zhx.common.colorfull;
+package org.zhx.common.colorful;
 
 import android.graphics.Color;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
-import android.view.View;
 
 /**
  * @ProjectName: colorfullText

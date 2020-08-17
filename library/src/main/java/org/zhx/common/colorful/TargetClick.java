@@ -1,4 +1,4 @@
-package org.zhx.common.colorfull;
+package org.zhx.common.colorful;
 
 /**
  * @ProjectName: colorfullText

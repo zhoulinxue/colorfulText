@@ -1,4 +1,4 @@
-package org.zhx.common.colorfull.demo;
+package org.zhx.common.colorful.demo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,10 +8,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.zhx.common.colorfull.Builder;
-import org.zhx.common.colorfull.ColorfulText;
-import org.zhx.common.colorfull.SingleBuilder;
-import org.zhx.common.colorfull.TargetClick;
+import org.zhx.common.colorful.Builder;
+import org.zhx.common.colorful.ColorfulText;
+import org.zhx.common.colorful.SingleBuilder;
+import org.zhx.common.colorful.TargetClick;
 
 public class MainActivity extends AppCompatActivity {
 

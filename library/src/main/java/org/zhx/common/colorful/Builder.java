@@ -1,8 +1,7 @@
-package org.zhx.common.colorfull;
+package org.zhx.common.colorful;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.ColorRes;

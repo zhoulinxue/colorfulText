@@ -1,4 +1,4 @@
-package org.zhx.common.colorfull;
+package org.zhx.common.colorful;
 
 import android.text.Layout;
 import android.text.Selection;
@@ -7,8 +7,6 @@ import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.TextView;
 
 /**
