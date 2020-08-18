@@ -20,25 +20,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // target
-//        target();
-//        //字体大小
-//        textSize();
-//        //背景色
-//        background();
-//        // 字体 style 粗体  斜体
-//        textStyle();
-//        // 删除线
-//        stickline();
-//        // 下划线
-//        underline();
-//        // 插入图片
+        target();
+        //字体大小
+        textSize();
+        //背景色
+        background();
+        // 字体 style 粗体  斜体
+        textStyle();
+        // 删除线
+        stickline();
+        // 下划线
+        underline();
+        // 插入图片
         insertDrawable();
         //替换图片
         replaceDrawable();
-//        // 点击事件
-//        Spanclick();
-//
-//        textClick();
+        // 点击事件
+        Spanclick();
+
+        textClick();
 
     }
 
