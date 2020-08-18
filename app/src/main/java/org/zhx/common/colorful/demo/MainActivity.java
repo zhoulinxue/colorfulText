@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import org.zhx.common.colorful.Builder;
 import org.zhx.common.colorful.ColorfulText;
-import org.zhx.common.colorful.SingleBuilder;
+import org.zhx.common.colorful.Builder;
 import org.zhx.common.colorful.TargetClick;
 
 public class MainActivity extends AppCompatActivity {
@@ -81,26 +81,25 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void replaceDrawable() {
-        Builder builder = new SingleBuilder(this)
+        Builder builder = new Builder(this)
                 .source("颜色大小背景粗细插入图片中划线下划线点击")
                 .target("图片")// 变色的 文字
-                .replaceDrawableSrc(R.mipmap.emoji_02);
+                .replaceDrawableSrc(R.mipmap.emoji_02, R.mipmap.emoji_02, R.mipmap.emoji_02, R.mipmap.emoji_02, R.mipmap.emoji_02, R.mipmap.emoji_02);
         TextView textView = findViewById(R.id.test_text9);
         builder.bind(textView);
     }
 
     private void insertDrawable() {
-        Builder builder = new SingleBuilder(this)
+        Builder builder = new Builder(this)
                 .source("颜色大小背景粗细插入图片中划线下划线点击")
-                .target("插入图片")// 变色的 文字
-                .insertDrawableSrc(3, R.mipmap.emoji_02);
+                .insertDrawableSrc(3, R.mipmap.emoji_02, R.mipmap.emoji_02, R.mipmap.emoji_02, R.mipmap.emoji_02, R.mipmap.emoji_02, R.mipmap.emoji_02, R.mipmap.emoji_02, R.mipmap.emoji_107, R.mipmap.emoji_02, R.mipmap.emoji_107);
         TextView textView = findViewById(R.id.test_text8);
         builder.bind(textView);
     }
 
     private void Spanclick() {
         TextView textView = findViewById(R.id.test_text6);
-        Builder builder = new SingleBuilder(this)
+        Builder builder = new Builder(this)
                 .source("颜色大小背景粗细插入图片中划线下划线点击")
                 .targets("点击", "颜色")// 变色的 文字
                 .textColor(R.color.colorPrimary)
@@ -116,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void stickline() {
-        Builder builder = new SingleBuilder(this)
+        Builder builder = new Builder(this)
                 .source("颜色大小背景粗细插入图片中划线下划线点击")
                 .target("中划线")// 变色的 文字
                 .isStrikethrough(true);
@@ -125,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void textStyle() {
-        Builder builder = new SingleBuilder(this)
+        Builder builder = new Builder(this)
                 .source("颜色大小背景粗细插入图片中划线下划线点击")
                 .target("粗细")// 变色的 文字
                 .textStyles(Typeface.BOLD);// 0 正常 1 粗体 2 斜体 3 粗斜体
@@ -134,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void textSize() {
-        Builder builder = new SingleBuilder(this)
+        Builder builder = new Builder(this)
                 .source("颜色大小背景粗细插入图片中划线下划线点击")
                 .target("大小")// 变色的 文字
                 .textSize(1.5f);// 1.5 倍
@@ -143,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void background() {
-        Builder builder = new SingleBuilder(this)
+        Builder builder = new Builder(this)
                 .source("颜色大小背景粗细插入图片中划线下划线点击")
                 .targets("颜色", "背景")// 变色的 文字
                 .textColor(R.color.white)
@@ -153,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void target() {
-        Builder builder = new SingleBuilder(this)
+        Builder builder = new Builder(this)
                 .source("颜色大小背景粗细插入图片中划线下划线点击")
                 .target("颜色")// 变色的 文字
                 .textColor(R.color.colorAccent);
@@ -162,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void underline() {
-        Builder builder = new SingleBuilder(this)
+        Builder builder = new Builder(this)
                 .source("颜色大小背景粗细插入图片中划线下划线点击")
                 .target("下划线")// 变色的 文字
                 .isUnderline(true)

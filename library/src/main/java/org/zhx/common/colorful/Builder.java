@@ -2,6 +2,7 @@ package org.zhx.common.colorful;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.ColorRes;
@@ -21,6 +22,14 @@ import androidx.annotation.DrawableRes;
  */
 public class Builder {
 
+    /**
+     * @Description:字段描述
+     * @CreateDate: 需要构建的 文字
+     */
+
+    public String source = "";
+
+
     public Context context;
     /**
      * @Description:字段描述
@@ -33,13 +42,20 @@ public class Builder {
      * @CreateDate: 本地图片
      */
 
-    public int drawableSrc;
+    public int[] drawableSrc;
     /**
      * @Description:字段描述
      * @CreateDate: 图片位置
      */
 
     public int drawableIndex;
+
+    /**
+     * @Description:字段描述
+     * @CreateDate: 多位置替换
+     */
+
+    public int[] drawableIndexs;
 
     /**
      * @Description:字段描述
@@ -143,7 +159,7 @@ public class Builder {
         return this;
     }
 
-    public Builder insertDrawableSrc(int place, @DrawableRes int src) {
+    public Builder insertDrawableSrc(int place, int... src) {
         this.drawableSrc = src;
         this.drawableIndex = place;
         return this;
@@ -189,54 +205,38 @@ public class Builder {
     public boolean hasTarget(String source, String target) {
         boolean hasSource = !TextUtils.isEmpty(source);
         boolean hasTarget = hasSource && !TextUtils.isEmpty(target) && source.contains(target);
-        if (!hasTarget && hasSource) {
-            char[] chars = source.toCharArray();
-            boolean isformate = !TextUtils.isEmpty(source) && start >= 0 && start < chars.length && end >= 0 && end >= start;
-            if (isformate) {
-                if (end > chars.length - 1) {
-                    end = chars.length - 1;
-                }
-                StringBuilder builder = new StringBuilder();
-                for (int i = start; i <= end; i++) {
-                    builder.append(chars[i]);
-                }
-                target = builder.toString();
-            }
-            if (isformate) {
-                if (end > source.length() - 1) {
-                    end = source.length();
-                }
-            }
-            hasTarget = isformate;
-        } else if (hasSource) {
+        if (hasTarget) {
             start = source.indexOf(target);
             end = start + target.length();
         }
-        return hasDrawable(source) || hasTarget;
+        return hasTarget;
     }
 
     public boolean hasDrawable(String source) {
         boolean hasDrawable = false;
-        char[] chars = source.toCharArray();
-        if (drawableSrc != 0) {
+        if (drawableSrc != null && drawableSrc.length > 0) {
             hasDrawable = true;
-            String[] newchars = new String[source.length() + 1];
-            for (int i = 0; i < newchars.length; i++) {
-                if (i < drawableIndex) {
-                    newchars[i] = chars[i] + "";
-                } else if (i >= drawableIndex && i < drawableIndex + 1) {
-                    newchars[i] = "!";
-                } else {
-                    newchars[i] = chars[i - 1] + "";
-                }
-            }
-            if (!isReplaceTarget) {
-                source = getNewSource(newchars);
-                start = drawableIndex;
-                end = start + 1;
-            }
         }
         return hasDrawable;
+    }
+
+    protected String resetSource(String source, int drawableIndex) {
+        char[] chars = source.toCharArray();
+        String[] newchars = new String[source.length() + drawableSrc.length];
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < newchars.length; i++) {
+            if (i < drawableIndex) {
+                newchars[i] = chars[i] + "";
+            } else if (i >= drawableIndex && i < drawableIndex + drawableSrc.length) {
+                newchars[i] = "!";
+                builder.append(newchars[i]);
+            } else {
+                newchars[i] = chars[i - drawableSrc.length] + "";
+            }
+            targets(builder.toString());
+            source = getNewSource(newchars);
+        }
+        return source;
     }
 
     public String getNewSource(String[] newchars) {
@@ -247,7 +247,7 @@ public class Builder {
         return builder.toString();
     }
 
-    public Builder replaceDrawableSrc(int drawable) {
+    public Builder replaceDrawableSrc(int... drawable) {
         this.isReplaceTarget = true;
         this.drawableSrc = drawable;
         return this;
@@ -264,8 +264,32 @@ public class Builder {
         return this;
     }
 
-    public void bind(TextView textView) {
 
+    public Builder source(String source) {
+        this.source = source;
+        return this;
     }
+
+    private CharSequence build() {
+        ColorfulText colorfullText = new ColorfulText();
+        if (hasDrawable(source) && !isReplaceTarget) {
+            source = resetSource(source, drawableIndex);
+        }
+        colorfullText.init(source);
+        if (!TextUtils.isEmpty(source)) {
+            if (hasTargets(source, targets)) {
+                return colorfullText.build(this);
+            }
+        }
+        return source;
+    }
+
+    public void bind(TextView textView) {
+        if (textView != null) {
+            this.textView = textView;
+            textView.setText(build());
+        }
+    }
+
 }
 

@@ -125,9 +125,21 @@ public class ColorfulText {
             mBuilder.setSpan(underlineSpan, builder.start, builder.end, spannable);
         }
         //设置图片
-        if (builder.drawableSrc != 0) {
-            ImageSpan imageSpan = new ImageSpan(builder.context, builder.drawableSrc);
-            mBuilder.setSpan(imageSpan, builder.start, builder.end, spannable);
+        if (builder.drawableSrc != null && builder.drawableSrc.length > 0) {
+            int start = 0;
+            int end = 0;
+            for (int drawable : builder.drawableSrc) {
+                ImageSpan imageSpan = new ImageSpan(builder.context, drawable);
+                if (!builder.isReplaceTarget) {
+                    start = builder.drawableIndex;
+                    end = builder.drawableIndex + 1;
+                    builder.drawableIndex++;
+                } else {
+                    start = source.indexOf(target);
+                    end = start + target.length();
+                }
+                mBuilder.setSpan(imageSpan, start, end, spannable);
+            }
         }
 
         if (builder.click != null) {
