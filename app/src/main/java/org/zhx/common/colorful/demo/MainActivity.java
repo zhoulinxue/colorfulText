@@ -64,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, target, Toast.LENGTH_SHORT).show();
                     }
                 });
-        TextView textView = findViewById(R.id.test_text9);
+        //.......所有builder 都可以叠加
+        TextView textView = findViewById(R.id.test_text7);
         ColorfulText text = new ColorfulText();
         text.init("颜色大小背景粗细插入图片中划线下划线点击");
         text.onClickListener = new View.OnClickListener() {
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "textView", Toast.LENGTH_SHORT).show();
             }
         };
+        //...............所有builder 都可以叠加
         text.creat(builder, builder1);
         text.into(textView);
     }
@@ -82,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
         Builder builder = new SingleBuilder(this)
                 .source("颜色大小背景粗细插入图片中划线下划线点击")
                 .target("图片")// 变色的 文字
-                .replaceDrawableSrc(R.mipmap.ic_launcher);
-        TextView textView = findViewById(R.id.test_text8);
+                .replaceDrawableSrc(R.mipmap.emoji_02);
+        TextView textView = findViewById(R.id.test_text9);
         builder.bind(textView);
     }
 
@@ -91,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
         Builder builder = new SingleBuilder(this)
                 .source("颜色大小背景粗细插入图片中划线下划线点击")
                 .target("插入图片")// 变色的 文字
-                .insertDrawableSrc(3, R.mipmap.ic_launcher);
-        TextView textView = findViewById(R.id.test_text7);
+                .insertDrawableSrc(3, R.mipmap.emoji_02);
+        TextView textView = findViewById(R.id.test_text8);
         builder.bind(textView);
     }
 
