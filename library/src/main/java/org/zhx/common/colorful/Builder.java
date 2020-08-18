@@ -52,13 +52,6 @@ public class Builder {
 
     /**
      * @Description:字段描述
-     * @CreateDate: 多位置替换
-     */
-
-    public int[] drawableIndexs;
-
-    /**
-     * @Description:字段描述
      * @CreateDate: 构建目标
      */
 
@@ -138,6 +131,12 @@ public class Builder {
      */
 
     public TextView textView;
+    /**
+     * @Description:字段描述
+     * @CreateDate: placeHolder
+     */
+
+    private String place = "!";
 
 
     public Builder isUnderline(boolean isUnderline) {
@@ -193,6 +192,7 @@ public class Builder {
 
     public boolean hasTargets(String source, String[] targets) {
         if (targets == null || targets.length == 0) {
+            Log.e("ColorfulText", "targets==null");
             return false;
         }
         for (String target : targets) {
@@ -203,8 +203,10 @@ public class Builder {
 
 
     public boolean hasTarget(String source, String target) {
+        Log.e("ColorfulText", source + ":" + target);
         boolean hasSource = !TextUtils.isEmpty(source);
         boolean hasTarget = hasSource && !TextUtils.isEmpty(target) && source.contains(target);
+        Log.e("ColorfulText", hasTarget + "   hasSource=  " + hasSource);
         if (hasTarget) {
             start = source.indexOf(target);
             end = start + target.length();
@@ -212,15 +214,17 @@ public class Builder {
         return hasTarget;
     }
 
-    public boolean hasDrawable(String source) {
+    public boolean hasDrawable() {
         boolean hasDrawable = false;
         if (drawableSrc != null && drawableSrc.length > 0) {
             hasDrawable = true;
         }
+        Log.e("source", hasDrawable ? "有图" : "没图");
         return hasDrawable;
     }
 
-    protected String resetSource(String source, int drawableIndex) {
+    protected String resetSource(String source, int drawableIndex, int targetIndex) {
+        String realTarget = targetIndex == -1 ? "" : targets[targetIndex];
         char[] chars = source.toCharArray();
         String[] newchars = new String[source.length() + drawableSrc.length];
         StringBuilder builder = new StringBuilder();
@@ -228,12 +232,15 @@ public class Builder {
             if (i < drawableIndex) {
                 newchars[i] = chars[i] + "";
             } else if (i >= drawableIndex && i < drawableIndex + drawableSrc.length) {
-                newchars[i] = "!";
+                newchars[i] = place;
                 builder.append(newchars[i]);
             } else {
                 newchars[i] = chars[i - drawableSrc.length] + "";
             }
-            targets(builder.toString());
+            if (targetIndex != -1)
+                targets[targetIndex] = builder.toString() + realTarget;
+            else
+                target(builder.toString());
             source = getNewSource(newchars);
         }
         return source;
@@ -272,16 +279,31 @@ public class Builder {
 
     private CharSequence build() {
         ColorfulText colorfullText = new ColorfulText();
-        if (hasDrawable(source) && !isReplaceTarget) {
-            source = resetSource(source, drawableIndex);
+        if (hasDrawable()) {
+            if (!isReplaceTarget)
+                source = resetSource(source, drawableIndex, -1);
+            else
+                source = resetSourcebyTarget(source);
         }
         colorfullText.init(source);
         if (!TextUtils.isEmpty(source)) {
-            if (hasTargets(source, targets)) {
+            boolean hasTarget = hasTargets(source, targets);
+            Log.e("ColorfulText", "hasTarget..." + hasTarget);
+            if (hasTarget) {
                 return colorfullText.build(this);
             }
         }
         return source;
+    }
+
+    private String resetSourcebyTarget(String source) {
+        String newStr = source;
+        for (int i = 0; i < targets.length; i++) {
+            String target = targets[i];
+            int index = source.indexOf(target);
+            newStr = resetSource(newStr, index, i);
+        }
+        return newStr;
     }
 
     public void bind(TextView textView) {

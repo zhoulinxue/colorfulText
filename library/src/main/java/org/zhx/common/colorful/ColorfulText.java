@@ -3,6 +3,7 @@ package org.zhx.common.colorful;
 import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
@@ -10,6 +11,7 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -28,6 +30,7 @@ import androidx.annotation.NonNull;
  * @Version:1.0
  */
 public class ColorfulText {
+    private String TAG = ColorfulText.class.getSimpleName();
     /**
      * @Description:字段描述
      * @CreateDate:
@@ -53,11 +56,13 @@ public class ColorfulText {
 
     public ColorfulText init(String source) {
         this.source = source;
+        Log.e(TAG, "init..." + source);
         mBuilder = new SpannableStringBuilder(source);
         return this;
     }
 
     public ColorfulText creat(Builder... builders) {
+        Log.e(TAG, "creat..." + source);
         for (Builder builder : builders) {
             creat(builder);
         }
@@ -125,21 +130,27 @@ public class ColorfulText {
             mBuilder.setSpan(underlineSpan, builder.start, builder.end, spannable);
         }
         //设置图片
-        if (builder.drawableSrc != null && builder.drawableSrc.length > 0) {
+        if (builder.hasDrawable()) {
             int start = 0;
             int end = 0;
-            for (int drawable : builder.drawableSrc) {
+            int index = TextUtils.isEmpty(target) ? 0 : source.indexOf(target);
+            Log.e("source", index + "@@" + target);
+            if (builder.isReplaceTarget) {
+                builder.drawableIndex = index;
+            }
+            for (int a = 0; a < builder.drawableSrc.length; a++) {
+                int drawable = builder.drawableSrc[a];
                 ImageSpan imageSpan = new ImageSpan(builder.context, drawable);
-                if (!builder.isReplaceTarget) {
-                    start = builder.drawableIndex;
-                    end = builder.drawableIndex + 1;
-                    builder.drawableIndex++;
+                start = builder.drawableIndex;
+                if (builder.isReplaceTarget && a == builder.drawableSrc.length - 1) {
+                    end = start + (target.length() - builder.drawableSrc.length) + 1;
                 } else {
-                    start = source.indexOf(target);
-                    end = start + target.length();
+                    end = builder.drawableIndex + 1;
                 }
+                builder.drawableIndex++;
                 mBuilder.setSpan(imageSpan, start, end, spannable);
             }
+
         }
 
         if (builder.click != null) {

@@ -20,25 +20,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // target
-        target();
-        //字体大小
-        textSize();
-        //背景色
-        background();
-        // 字体 style 粗体  斜体
-        textStyle();
-        // 删除线
-        stickline();
-        // 下划线
-        underline();
-        // 插入图片
+//        target();
+//        //字体大小
+//        textSize();
+//        //背景色
+//        background();
+//        // 字体 style 粗体  斜体
+//        textStyle();
+//        // 删除线
+//        stickline();
+//        // 下划线
+//        underline();
+//        // 插入图片
         insertDrawable();
         //替换图片
         replaceDrawable();
-        // 点击事件
-        Spanclick();
-
-        textClick();
+//        // 点击事件
+//        Spanclick();
+//
+//        textClick();
 
     }
 
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     private void replaceDrawable() {
         Builder builder = new Builder(this)
                 .source("颜色大小背景粗细插入图片中划线下划线点击")
-                .target("图片")// 变色的 文字
+                .targets("点击", "图片", "大小")// 变色的 文字
                 .replaceDrawableSrc(R.mipmap.emoji_02, R.mipmap.emoji_02, R.mipmap.emoji_02, R.mipmap.emoji_02, R.mipmap.emoji_02, R.mipmap.emoji_02);
         TextView textView = findViewById(R.id.test_text9);
         builder.bind(textView);
