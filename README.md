@@ -27,7 +27,7 @@ lib for spannableString
  ```
  ###  单一 属性 修改
  ```
- Builder builder = new SingleBuilder(this)
+ Builder builder = new Builder(this)
                 .source("颜色大小背景粗细插入图片中划线下划线点击")
                 .target("颜色")// 变色的 文字
                 .textColor(R.color.colorAccent);
@@ -76,7 +76,7 @@ lib for spannableString
 ### 多关键字 修改
 ```
 TextView textView = findViewById(R.id.test_text6);
-        Builder builder = new SingleBuilder(this)
+        Builder builder = new Builder(this)
                 .source("颜色大小背景粗细插入图片中划线下划线点击")
                 .targets("点击", "颜色")// 变色的 文字
                 .textColor(R.color.colorPrimary)
