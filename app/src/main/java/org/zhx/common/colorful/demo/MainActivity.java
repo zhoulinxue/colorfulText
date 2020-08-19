@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void textClick() {
         Builder builder = new Builder(this)
-                .targets("点击")// 变色的 文字
+                .targets("《用户注册协议》")// 变色的 文字
                 .textColor(R.color.colorPrimary)
                 .pressdColor(R.color.colorAccent)
                 .spanClick(new TargetClick() {
@@ -73,9 +73,10 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         Builder builder1 = new Builder(this)
-                .targets("颜色")// 变色的 文字
+                .targets("《隐私权政策》")// 变色的 文字
                 .textColor(R.color.colorAccent)
                 .pressdColor(R.color.colorPrimary)
+                .isUnderline(true)
                 .spanClick(new TargetClick() {
                     @Override
                     public void onClick(String target) {
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         //.......所有builder 都可以叠加
         TextView textView = findViewById(R.id.test_text7);
         ColorfulText text = new ColorfulText();
-        text.init("颜色大小背景粗细插入图片中划线下划线点击");
+        text.init("使用即为同意《用户注册协议》和《隐私权政策》");
         text.onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {

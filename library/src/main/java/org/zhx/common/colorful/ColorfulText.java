@@ -67,7 +67,7 @@ public class ColorfulText {
     public ColorfulText creat(Builder... builders) {
         Log.e(TAG, "creat..." + source);
         for (Builder builder : builders) {
-            creat(builder,false);
+            creat(builder, false);
         }
         return this;
     }
@@ -195,7 +195,7 @@ public class ColorfulText {
                     }
                 }
             };
-            TouchableSpan span = new TouchableSpan(builder.textColor, builder.pressedColor, builder.textColor, callback) {
+            TouchableSpan span = new TouchableSpan(builder.textColor, builder.pressedColor, builder.textColor, callback, builder.isUnderline) {
                 @Override
                 public void onClick(@NonNull View view) {
                     builder.click.onClick(target);
