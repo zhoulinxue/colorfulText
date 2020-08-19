@@ -73,6 +73,20 @@ lib for spannableString
         text.into(textView);
 ```
 
+### 表情 替换  按指定的 正则表达式替换
+```
+ Builder builder = new Builder(this);
+        builder.source("发送表情[色][色][色][色][吉他][吉]");
+        builder.pattenStr("\\[[^\\]]+\\]", new OnPatternFind() {
+            @Override
+            public int onFind(String target) {
+                Log.i("!!!!", target);
+                return "[色]".equals(target) ? R.mipmap.emoji_02 : R.mipmap.emoji_107;
+            }
+        });
+        TextView textView = findViewById(R.id.test_text11);
+        builder.bind(textView);
+```
 ### 多关键字 修改
 ```
 TextView textView = findViewById(R.id.test_text6);
