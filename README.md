@@ -1,5 +1,6 @@
 # colorfulText
 lib for spannableString
+
 [ ![Download](https://api.bintray.com/packages/zhx/common/colorfulText/images/download.svg?version=1.0.0) ](https://bintray.com/zhx/common/colorfulText/1.0.0/link)
 
 ## 能干什么？

@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import org.zhx.common.colorful.Builder;
 import org.zhx.common.colorful.ColorfulText;
-import org.zhx.common.colorful.Builder;
 import org.zhx.common.colorful.OnPatternFind;
 import org.zhx.common.colorful.TargetClick;
 
