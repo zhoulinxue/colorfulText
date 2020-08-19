@@ -1,5 +1,6 @@
 package org.zhx.common.colorful;
 
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+
+import java.util.regex.Matcher;
 
 /**
  * @ProjectName: colorfullText
@@ -64,7 +67,7 @@ public class ColorfulText {
     public ColorfulText creat(Builder... builders) {
         Log.e(TAG, "creat..." + source);
         for (Builder builder : builders) {
-            creat(builder);
+            creat(builder,false);
         }
         return this;
     }
@@ -87,13 +90,15 @@ public class ColorfulText {
     /**
      * @param builder
      */
-    private CharSequence creat(Builder builder) {
+    private CharSequence creat(Builder builder, boolean isPatten) {
         if (builder.hasTargets(source, builder.targets)) {
             for (int i = 0; i < builder.targets.length; i++) {
                 String target = builder.targets[i];
                 if (builder.hasTarget(source, target))
                     setSpan(builder, target);
             }
+        } else if (isPatten) {
+            setSpan(builder, "");
         }
         return mBuilder;
     }
@@ -153,6 +158,23 @@ public class ColorfulText {
 
         }
 
+        if (builder.isPatten()) {
+            Matcher matcher = builder.patten.matcher(mBuilder);
+            int end = 0;
+            while (matcher.find()) {
+                if (builder.find != null) {
+                    String findTarget = matcher.group();
+                    if (matcher.start() < end) {
+                        continue;
+                    }
+                    int drawable = builder.find.onFind(findTarget);
+                    ImageSpan imageSpan = new ImageSpan(builder.context, drawable);
+                    end = matcher.start() + findTarget.length();
+                    mBuilder.setSpan(imageSpan, matcher.start(), end, spannable);
+                }
+            }
+        }
+
         if (builder.click != null) {
             SpanPressCallback callback = new SpanPressCallback() {
                 @Override
@@ -195,7 +217,7 @@ public class ColorfulText {
     }
 
 
-    public CharSequence build(Builder builder) {
-        return creat(builder);
+    public CharSequence build(Builder builder, boolean isPatten) {
+        return creat(builder, isPatten);
     }
 }

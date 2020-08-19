@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import org.zhx.common.colorful.Builder;
 import org.zhx.common.colorful.ColorfulText;
 import org.zhx.common.colorful.Builder;
+import org.zhx.common.colorful.OnPatternFind;
 import org.zhx.common.colorful.TargetClick;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //表情替换  和 图片替换 2选1设置 图片替换或者设置 表情替换以后 另一个 功能失效
+        enmoj();
         // target
         target();
         //字体大小
@@ -37,9 +41,23 @@ public class MainActivity extends AppCompatActivity {
         replaceDrawable();
         // 点击事件
         Spanclick();
-
+        // TextView 点击事件
         textClick();
 
+    }
+
+    private void enmoj() {
+        Builder builder = new Builder(this);
+        builder.source("发送表情[色][色][色][色][吉他][吉]");
+        builder.pattenStr("\\[[^\\]]+\\]", new OnPatternFind() {
+            @Override
+            public int onFind(String target) {
+                Log.i("!!!!", target);
+                return "[色]".equals(target) ? R.mipmap.emoji_02 : R.mipmap.emoji_107;
+            }
+        });
+        TextView textView = findViewById(R.id.test_text11);
+        builder.bind(textView);
     }
 
     private void textClick() {

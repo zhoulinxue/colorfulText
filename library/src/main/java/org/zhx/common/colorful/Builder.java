@@ -8,6 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 
+import java.util.regex.Pattern;
+
 /**
  * @ProjectName: colorfullText
  * @Package: org.zhx.common.colorfull
@@ -137,6 +139,19 @@ public class Builder {
      */
 
     private String place = "!";
+    /**
+     * @Description:字段描述
+     * @CreateDate: 按正则表达式 替换
+     */
+
+    public Pattern patten;
+
+    /**
+     * @Description:字段描述
+     * @CreateDate: 替换回调
+     */
+
+    public OnPatternFind find;
 
 
     public Builder isUnderline(boolean isUnderline) {
@@ -171,6 +186,13 @@ public class Builder {
 
     public Builder targets(String... targets) {
         this.targets = targets;
+        return this;
+    }
+
+    public Builder pattenStr(String patten, OnPatternFind find) {
+        isReplaceTarget = true;
+        this.patten = Pattern.compile(patten, Pattern.CASE_INSENSITIVE);
+        this.find = find;
         return this;
     }
 
@@ -211,7 +233,7 @@ public class Builder {
             start = source.indexOf(target);
             end = start + target.length();
         }
-        return hasTarget;
+        return hasTarget || isPatten();
     }
 
     public boolean hasDrawable() {
@@ -220,7 +242,7 @@ public class Builder {
             hasDrawable = true;
         }
         Log.e("source", hasDrawable ? "有图" : "没图");
-        return hasDrawable;
+        return hasDrawable && patten == null;
     }
 
     protected String resetSource(String source, int drawableIndex, int targetIndex) {
@@ -277,20 +299,25 @@ public class Builder {
         return this;
     }
 
+
     private CharSequence build() {
         ColorfulText colorfullText = new ColorfulText();
+
         if (hasDrawable()) {
             if (!isReplaceTarget)
                 source = resetSource(source, drawableIndex, -1);
             else
                 source = resetSourcebyTarget(source);
         }
+
         colorfullText.init(source);
         if (!TextUtils.isEmpty(source)) {
             boolean hasTarget = hasTargets(source, targets);
             Log.e("ColorfulText", "hasTarget..." + hasTarget);
             if (hasTarget) {
-                return colorfullText.build(this);
+                return colorfullText.build(this, false);
+            } else if (isPatten()) {
+                return colorfullText.build(this, true);
             }
         }
         return source;
@@ -313,5 +340,8 @@ public class Builder {
         }
     }
 
+    public boolean isPatten() {
+        return patten != null;
+    }
 }
 
